@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                padding: 20px;
+                margin: 0;
+            }
+
+            h1 {
+                text-align: center;
+                color: #4CAF50;
+            }
+
+            .container {
+                width: 50%;
+                margin: auto;
+                padding: 20px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            label {
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 8px;
+                display: inline-block;
+            }
+
+            input {
+                width: 100%;
+                padding: 10px;
+                margin: 8px 0 20px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+            #infoContainer {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #e9f5e9;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .student-info {
+                margin-bottom: 15px;
+            }
+
+            .student-info strong {
+                color: #4CAF50;
+                font-size: 18px;
+            }
+
+            #searchSuggestions {
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-top: 5px;
+                background-color: white;
+                max-height: 150px;
+                overflow-y: auto;
+                position: absolute;
+                width: 50%;
+            }
+
+            .suggestion-item {
+                padding: 10px;
+                cursor: pointer;
+            }
+
+            .suggestion-item:hover {
+                background-color: #f4f4f4;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Student Information</h1>
+
+        <div class="container">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" placeholder="Enter Student Name">
+
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" placeholder="Enter Student ID">
+
+            <label for="studentDept">Department</label>
+            <input type="text" id="studentDept" placeholder="Enter Department">
+
+            <label for="studentGrade">Grade</label>
+            <input type="text" id="studentGrade" placeholder="Enter Grade">
+
+            <button onclick="addStudentInfo();">Save Info</button>
+            <button onclick="displayInfo();" id="viewBtn">View Info</button>
+
+            <label for="search">Search Students</label>
+            <input type="text" id="search" onkeyup="searchStudents()" placeholder="Search by Name, ID, or Department">
+            <div id="searchSuggestions"></div>
+        </div>
+
+        <div id="infoContainer"></div>
+
+        <script>
+            const studentsArray = [];
+
+            function addStudentInfo() {
+                const newStudent = {
+                    name: document.getElementById("studentName").value,
+                    id: document.getElementById("studentId").value,
+                    department: document.getElementById("studentDept").value,
+                    grade: document.getElementById("studentGrade").value,
+                    greetUser: function() {
+                        return "Greetings! Here are my details.";
+                    }
+                };
+
+                studentsArray.push(newStudent);
+
+                document.getElementById("studentName").value = '';
+                document.getElementById("studentId").value = '';
+                document.getElementById("studentDept").value = '';
+                document.getElementById("studentGrade").value = '';
+            }
+
+           
+            function displayInfo() {
+                let displayContent = '';
+
+                studentsArray.forEach((student, index) => {
+                    displayContent += `
+                        <div class="student-info">
+                            <strong>Student ${index + 1}</strong><br>
+                            Name: ${student.name} <br>
+                            Student ID: ${student.id} <br>
+                            Department: ${student.department} <br>
+                            Grade: ${student.grade}<br><br>
+                            ${student.greetUser()}<br><br>
+                        </div>
+                    `;
+                });
+
+                document.getElementById("infoContainer").innerHTML = displayContent;
+            }
+
+            function searchStudents() {
+                const searchQuery = document.getElementById("search").value.toLowerCase();
+                const suggestions = document.getElementById("searchSuggestions");
+                suggestions.innerHTML = ''; 
+
+                if (searchQuery === '') {
+                    return;
+                }
+
+          
+                const filteredStudents = studentsArray.filter(student => 
+                    student.name.toLowerCase().includes(searchQuery) || 
+                    student.id.toLowerCase().includes(searchQuery) || 
+                    student.department.toLowerCase().includes(searchQuery)
+                );
+
+                
+                filteredStudents.forEach(student => {
+                    const suggestionItem = document.createElement("div");
+                    suggestionItem.classList.add("suggestion-item");
+                    suggestionItem.textContent = `${student.name} (ID: ${student.id}, Dept: ${student.department})`;
+                    suggestionItem.onclick = function() {
+                        document.getElementById("search").value = suggestionItem.textContent;
+                        suggestions.innerHTML = ''; 
+                    };
+                    suggestions.appendChild(suggestionItem);
+                });
+            }
+        </script>
+    </body>
+</html>

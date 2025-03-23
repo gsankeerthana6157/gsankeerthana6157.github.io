@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <input placeholder="Enter number here" id = "input" onkeyup="grade_update()"/>
+        <div id = "demo"></div>
+        <script>
+            function grade_update(){
+                let text="";
+                // let n=5;
+                let n = parseFloat(document.getElementById("input").value);
+                for (let i=0; i<=n; i++){
+                    for (let j=0; j<i; j++){
+                        text += "* ";
+                    }
+                    text += "<br>";
+                }
+
+                document.getElementById('demo').innerHTML = text;
+            }
+        </script>
+    </body>
+    </html>

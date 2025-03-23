@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head></head>
+        <body>
+            <h2>Random Number Generator</h2>
+            <label>First number: <input type="number" id="num1"></label>
+            <label>Second number: <input type="number" id="num2"></label>
+            <button onclick="generateRandomNumber()">Generate</button>
+            <h3 id="result"></h3>
+            <script>
+                function generateRandomNumber() {
+                    let a = +num1.value, b = +num2.value;
+                    if (!a || !b) return alert('Enter valid numbers');
+            
+                    let randomNum = Math.floor(Math.random() * (Math.abs(b - a) + 1)) + Math.min(a, b);
+                    let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            
+                    result.innerText = `Random Number: ${randomNum}`;
+                    result.style.color = randomColor;
+                }
+            </script>
+        </body>
+</html>

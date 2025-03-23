@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       
+    </head>
+    <body>
+        <h1>Student Information</h1>
+        <input type="text" placeholder="Enter Student Name" id="studentName">
+        <input type="text" placeholder="Enter Student ID" id="studentId">
+        <input type="text" placeholder="Enter Department" id="studentDept">
+        <input type="text" placeholder="Enter Grade" id="studentgrade">
+        <button onclick="addStudentInfo();">Save Info</button>
+        <button onclick="displayInfo();" id="viewBtn">View Info</button>
+       
+        <div id="infoContainer"></div>
+       
+        <script>
+            const studentDetails = {
+                name: "sankeerthana",
+                id: "S004489093",
+                department: "Computer Science",
+                grade:"3.21",
+                greetUser: function() {
+                    return "Greetings! Here are my details.";
+                }
+            };
+
+            function addStudentInfo() {
+                studentDetails.name = document.getElementById("studentName").value;
+                studentDetails.id = document.getElementById("studentId").value;
+                studentDetails.department = document.getElementById("studentDept").value;
+                studentDetails.Grade = document.getElementById("studentGrade").value;
+            }
+
+            function displayInfo() {
+                document.getElementById("infoContainer").innerHTML = `
+                    Name: ${studentDetails.name} <br>
+                    Student ID: ${studentDetails.id} <br>
+                    Department: ${studentDetails.department} <br>
+                    Grade: ${studentDetails.grade}<br><br>
+                    ${studentDetails.greetUser()}
+                `;
+            }
+        </script>
+    </body>
+</html>
